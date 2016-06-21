@@ -1,0 +1,10 @@
+data <- read.table("household_power_consumption.txt", sep = ";", skip = 66637, nrow = 2880, col.names = colnames(read.table("household_power_consumption.txt", sep = ";", nrow = 1, header = TRUE)))
+data$date_time <- paste(data$Date, data$Time)
+data$date_time <- strptime(data$date_time, "%d/%m/%Y %H:%M:%S")
+plotData <- data[, c("date_time", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3")]
+png(filename = "plot3.png", width = 480, height = 480, units = "px")
+plot(plotData[, c(1,2)], type = "l", xlab = "", ylab = "Energy sub metering")
+lines(plotData[, c(1,3)], type = "l", col = "RED")
+lines(plotData[, c(1,4)], type = "l", col = "BLUE")
+legend("topright", names(plotData[ ,c(2:4)]), lty = c(1,1,1), col = c("black", "red", "blue"))
+dev.off()
